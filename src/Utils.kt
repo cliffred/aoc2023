@@ -1,28 +1,41 @@
-import java.math.BigInteger
-import java.security.MessageDigest
-import kotlin.io.path.Path
-import kotlin.io.path.readLines
+interface Challenge {
 
-/**
- * Reads lines from the given input txt file.
- */
-fun readInput(name: String) = Path("src/$name.txt").readLines()
+    val day: Int
 
-/**
- * Converts string to md5 hash.
- */
-fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))
-    .toString(16)
-    .padStart(32, '0')
+    fun part1(input: List<String>): Long
 
-/**
- * The cleaner shorthand for printing output.
- */
-fun Any?.println() = println(this)
+    fun part2(input: List<String>): Long
 
-fun check(expected: Int, solution: () -> Int) {
-    val actual = solution()
-    if (actual != expected) {
-        throw AssertionError("Expected $expected, but got $actual")
+    val test1: Test
+
+    val test2: Test
+}
+
+data class Test(val input: String, val expected: Long)
+
+/** Solves the given challenge. */
+fun solve(challenge: Challenge) {
+    val input = readInput("Day${challenge.day.toString().padStart(2, '0')}")
+    println("=== Day ${challenge.day} ===")
+
+    assertEquals(challenge.test1.expected, challenge.part1(challenge.test1.input.lines()))
+    println("Part 1: ${challenge.part1(input)}")
+
+    assertEquals(challenge.test2.expected, challenge.part2(challenge.test2.input.lines()))
+    println("Part 2: ${challenge.part2(input)}")
+}
+
+/** Assert that the given [expected] value equals the [actual] value. */
+fun assertEquals(expected: Any?, actual: Any?) {
+    if (expected != actual) {
+        throw AssertionError("Expected $expected but was $actual")
     }
 }
+
+/** Reads lines from the given input txt file. */
+private fun readInput(name: String) =
+    Thread.currentThread()
+        .contextClassLoader
+        .getResourceAsStream("$name.txt")!!
+        .bufferedReader()
+        .readLines()
