@@ -1,7 +1,7 @@
 fun main() {
     solve(
         object : Challenge {
-            override val day = 999
+            override val day = TODO()
 
             override fun part1(input: List<String>): Long {
                 return TODO()
