@@ -21,15 +21,7 @@ fun main() {
                     expected = 0
                 )
 
-            override val test2 =
-                Test(
-                    input =
-                        """
-                test
-            """
-                            .trimIndent(),
-                    expected = 0
-                )
+            override val test2 = Test(input = test1.input, expected = 0)
         }
     )
 }
