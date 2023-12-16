@@ -1,3 +1,5 @@
+import kotlin.time.measureTimedValue
+
 interface Challenge {
 
     val day: Int
@@ -19,10 +21,12 @@ fun solve(challenge: Challenge) {
     println("=== Day ${challenge.day} ===")
 
     assertEquals(challenge.test1.expected, challenge.part1(challenge.test1.input.lines()))
-    println("Part 1: ${challenge.part1(input)}")
+    val (part1, duration1) = measureTimedValue { challenge.part1(input) }
+    println("Part 1: $part1 in ${duration1.inWholeMilliseconds}ms")
 
     assertEquals(challenge.test2.expected, challenge.part2(challenge.test2.input.lines()))
-    println("Part 2: ${challenge.part2(input)}")
+    val (part2, duration2) = measureTimedValue { challenge.part2(input) }
+    println("Part 2: $part2 in ${duration2.inWholeMilliseconds}ms")
 }
 
 /** Assert that the given [expected] value equals the [actual] value. */
